@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MoblieTeamProject_GoToBed"
+rootProject.name = "MobileApp"
 include(":app")
  
