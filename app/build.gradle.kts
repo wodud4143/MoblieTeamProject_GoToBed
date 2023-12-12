@@ -39,7 +39,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-analytics-ktx")
     implementation ("com.google.firebase:firebase-auth:22.3.0") // 파이어베이스 인증
     implementation ("com.google.firebase:firebase-firestore:23.0.3") // 파이어베이스 Firestore
-
+    //그래프를 위한 모듈 설치
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0") // 여기에 추가
     //로티 모듈
     implementation ("com.airbnb.android:lottie:6.1.0")
 
