@@ -43,11 +43,10 @@ dependencies {
     //그래프를 위한 모듈 설치
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0") // 여기에 추가
     //로티 모듈
-
     implementation ("com.github.skydoves:balloon:1.6.3")
-
+    implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.2.1")
     implementation ("com.airbnb.android:lottie:6.1.0")
-    implementation ("com.github.skydoves:balloon:1.6.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

@@ -5,32 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,17 +35,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.skydoves.balloon.ArrowOrientation;
 import com.skydoves.balloon.ArrowPositionRules;
 import com.skydoves.balloon.Balloon;
 import com.skydoves.balloon.BalloonAnimation;
 import com.skydoves.balloon.BalloonSizeSpec;
-import com.skydoves.balloon.TextForm;
 
 public class RealActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore dbMain; //파이어스토어 전역변수
-    private ConstraintLayout setBtn;
+    private ConstraintLayout setBtn; //
+    private ConstraintLayout detailView;
     private String UidDate = "";
 
 
@@ -74,8 +64,8 @@ public class RealActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         // Firestore 인스턴스 가져오기
         dbMain = FirebaseFirestore.getInstance();
-
         setBtn = findViewById(R.id.setBtn);
+        detailView = findViewById(R.id.constraintLayout2);
         updateLoginStatus();
 
         getUserName();
@@ -88,6 +78,17 @@ public class RealActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent SettingIntent = new Intent(RealActivity.this, SettingActivity.class);
                 startActivity(SettingIntent);
+            }
+        });
+
+        detailView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent DetailViewIntent = new Intent(RealActivity.this, DetailViewActivity.class);
+                System.out.println(name);
+                DetailViewIntent.putExtra("uid",uid);
+                startActivity(DetailViewIntent);
+
             }
         });
 
@@ -120,7 +121,6 @@ public class RealActivity extends AppCompatActivity {
                         if (document.exists()) {
                             // 문서가 존재하면 "name" 필드 값을 가져옴
                             name = document.getString("name");
-                            System.out.println("Name: " + name);
                             ((TextView) findViewById(R.id.loginStatusTextView2)).setText(name + "님 안녕하세요");
                         } else {
                             System.out.println("해당 UID로 된 문서가 없습니다.");
@@ -136,27 +136,31 @@ public class RealActivity extends AppCompatActivity {
         dbMain.collection("sleepdata")
                 .document(uid)//현재 사용자의 UID
                 .collection("data")
-                .document("2023-12-13")//이 부분에 가장 날짜가 최근인 문서를 넣어야함
+                .orderBy("date",Query.Direction.DESCENDING)
+                .limit(1)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            DocumentSnapshot document = task.getResult();
-                            //성공적으로 업무를 수행하면 어제의 수면 시간 데이터를 가져온다
-                            String sleeptime = document.getString("sleep");
-                            String wakeuptime = document.getString("wake");
-
-                            System.out.println(sleeptime + " " + wakeuptime);//디버깅용
-                            try {
-                                displayPieChart(sleeptime,wakeuptime);
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
+                            for(QueryDocumentSnapshot document :task.getResult()){
+                                //성공적으로 업무를 수행하면 어제의 수면 시간 데이터를 가져온다
+                                String sleeptime = document.getString("sleep");
+                                String wakeuptime = document.getString("wake");
+                                String date = document.getString("date");
+                                try {
+                                    displayPieChart(sleeptime,wakeuptime,date);
+                                } catch (ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
                         else{
-                            Log.d("Firestore", "Error getting documents: ", task.getException());
-
+                            try {
+                                displayPieChart("0","0","0");
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 });
@@ -186,36 +190,42 @@ public class RealActivity extends AppCompatActivity {
         return sleepDurationMinutes;
     }
 
-    private void displayPieChart(String sleeptime, String wakeuptime) throws ParseException {
+    private void displayPieChart(String sleeptime, String wakeuptime, String date) throws ParseException {
 
        if(sleeptime != null && wakeuptime != null){
            int sleep = Integer.parseInt(sleeptime);
            int wake  = Integer.parseInt(wakeuptime);
            int sleepDuration = calculateSleepDuration(sleep, wake);
-           updatePieChart(sleepDuration,sleep,wake);
+           updatePieChart(sleepDuration,sleep,wake,date);
        }
        else {
            int sleep = Integer.parseInt(sleeptime);
            int wake  = Integer.parseInt(wakeuptime);
-           updatePieChart(0,sleep,wake);
+           updatePieChart(0,sleep,wake, date);
        }
     }
 
-
-    private void updatePieChart(int sleepDuration,int sleep, int wake){
+    private void updatePieChart(int sleepDuration,int sleep, int wake, String date){
         PieChart pieChart = findViewById(R.id.pieChart);
         pieChart.clear();//그래프 정리
 
         if(sleepDuration > 0){
-            // 현재 날짜를 가져오는 방법
-            Calendar calendar = Calendar.getInstance();
-            Date currentDate = calendar.getTime();
 
-            // SimpleDateFormat을 사용하여 날짜를 원하는 형식으로 포맷팅
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String formattedDate = dateFormat.format(currentDate);
-            TextView DateToday = (TextView) findViewById(R.id.DateToday);
-            DateToday.setText(formattedDate);
+            if(date.equals("0")) {
+                // 현재 날짜를 가져오는 방법
+                Calendar calendar = Calendar.getInstance();
+                Date currentDate = calendar.getTime();
+
+                // SimpleDateFormat을 사용하여 날짜를 원하는 형식으로 포맷팅
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String formattedDate = dateFormat.format(currentDate);
+                TextView DateToday = (TextView) findViewById(R.id.DateToday);
+                DateToday.setText(formattedDate);
+            }
+            else{
+                TextView DateToday = (TextView) findViewById(R.id.DateToday);
+                DateToday.setText(date);
+            }
 
             // 그래프 설정
 
