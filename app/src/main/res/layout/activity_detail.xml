@@ -26,23 +26,54 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginStatusTextView2">
+
+        <LinearLayout
+
+            android:layout_width="379dp"
+            android:layout_height="102dp"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/date2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/date3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/date4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/graphContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.github.mikephil.charting.charts.PieChart
-                app:mcv_selectionMode="none"
-                android:id="@+id/pieChart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
 
 
-            </com.github.mikephil.charting.charts.PieChart>
+
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/BarChart"
+                android:layout_width="375dp"
+                android:layout_height="148dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:translationY="20dp" />
 
         </FrameLayout>
 
