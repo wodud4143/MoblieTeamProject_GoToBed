@@ -1,4 +1,4 @@
-package com.cookandroid.moblieteamproject_gotobed;
+package com.kotlinsun.mobileapp;
 
 import org.junit.Test;
 

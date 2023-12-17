@@ -1,4 +1,4 @@
-package com.cookandroid.moblieteamproject_gotobed;
+package com.kotlinsun.mobileapp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.cookandroid.moblieteamproject_gotobed", appContext.getPackageName());
+        assertEquals("com.kotlinsun.mobileapp", appContext.getPackageName());
     }
 }
