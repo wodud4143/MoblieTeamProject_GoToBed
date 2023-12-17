@@ -47,7 +47,9 @@ public class RealActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore dbMain; //파이어스토어 전역변수
     private ConstraintLayout setBtn; //
+    private ConstraintLayout sleepBtn;
     private ConstraintLayout detailView;
+    private ConstraintLayout SleepNow;
     private String UidDate = "";
 
 
@@ -65,12 +67,35 @@ public class RealActivity extends AppCompatActivity {
         // Firestore 인스턴스 가져오기
         dbMain = FirebaseFirestore.getInstance();
         setBtn = findViewById(R.id.setBtn);
+        sleepBtn = findViewById(R.id.sleepBtn);
         detailView = findViewById(R.id.constraintLayout2);
+        SleepNow = findViewById(R.id.sleepNow);
         updateLoginStatus();
 
         getUserName();
 
         fetchSleepData();
+
+
+        //바로자기 버튼
+        SleepNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent SleepIntent = new Intent(RealActivity.this, CalCulateNow.class);
+                SleepIntent.putExtra("uid",UidDate);
+                startActivity(SleepIntent);
+            }
+        });
+
+        //수면 측정 버튼
+        sleepBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent SleepIntent = new Intent(RealActivity.this, CalculateActivity.class);
+                SleepIntent.putExtra("uid",UidDate);
+                startActivity(SleepIntent);
+            }
+        });
 
         //설정 버튼
         setBtn.setOnClickListener(new View.OnClickListener() {
@@ -192,17 +217,17 @@ public class RealActivity extends AppCompatActivity {
 
     private void displayPieChart(String sleeptime, String wakeuptime, String date) throws ParseException {
 
-       if(sleeptime != null && wakeuptime != null){
-           int sleep = Integer.parseInt(sleeptime);
-           int wake  = Integer.parseInt(wakeuptime);
-           int sleepDuration = calculateSleepDuration(sleep, wake);
-           updatePieChart(sleepDuration,sleep,wake,date);
-       }
-       else {
-           int sleep = Integer.parseInt(sleeptime);
-           int wake  = Integer.parseInt(wakeuptime);
-           updatePieChart(0,sleep,wake, date);
-       }
+        if(sleeptime != null && wakeuptime != null){
+            int sleep = Integer.parseInt(sleeptime);
+            int wake  = Integer.parseInt(wakeuptime);
+            int sleepDuration = calculateSleepDuration(sleep, wake);
+            updatePieChart(sleepDuration,sleep,wake,date);
+        }
+        else {
+            int sleep = Integer.parseInt(sleeptime);
+            int wake  = Integer.parseInt(wakeuptime);
+            updatePieChart(0,sleep,wake, date);
+        }
     }
 
     private void updatePieChart(int sleepDuration,int sleep, int wake, String date){
