@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "289585432894",
+    "project_id": "gotobed-572be",
+    "storage_bucket": "gotobed-572be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289585432894:android:d6fd4a6837b94ef6a4c46f",
+        "android_client_info": {
+          "package_name": "com.company.gotobed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWYWXnBFQQaZlTiS6NQVRykvjXGMSTKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289585432894:android:fa24ed0ada4441b6a4c46f",
+        "android_client_info": {
+          "package_name": "com.cookandroid.gotobed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWYWXnBFQQaZlTiS6NQVRykvjXGMSTKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289585432894:android:02aee62dc5774249a4c46f",
+        "android_client_info": {
+          "package_name": "com.cookandroid.moblieteamproject_gotobed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWYWXnBFQQaZlTiS6NQVRykvjXGMSTKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289585432894:android:d7d4a32ff1f6fbfba4c46f",
+        "android_client_info": {
+          "package_name": "com.kotlinsun.mobileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWYWXnBFQQaZlTiS6NQVRykvjXGMSTKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289585432894:android:96ea3c69a8138e7ea4c46f",
+        "android_client_info": {
+          "package_name": "com.test.gotobed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWYWXnBFQQaZlTiS6NQVRykvjXGMSTKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
