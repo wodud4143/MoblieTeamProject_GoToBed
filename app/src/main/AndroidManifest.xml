@@ -17,6 +17,12 @@
         <activity android:name=".DetailViewActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".CalculateActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".CalCulateNow"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".SettingActivity"
             android:exported="false" />
