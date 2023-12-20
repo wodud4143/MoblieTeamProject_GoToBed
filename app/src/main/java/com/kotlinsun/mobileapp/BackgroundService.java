@@ -10,7 +10,10 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
+
+import androidx.core.app.NotificationManagerCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +44,8 @@ public class BackgroundService extends Service {
             alarmTime = intent.getStringExtra("alarm_time");
             System.out.println("일어날 시간 : " + alarmTime);
         }
+
+
 
         // Foreground 서비스로 설정
         startForeground(1, createNotification());
@@ -137,6 +142,8 @@ public class BackgroundService extends Service {
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.notify(1, notification);
     }
+
+
 
 
 

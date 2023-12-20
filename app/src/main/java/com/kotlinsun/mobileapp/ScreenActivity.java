@@ -23,12 +23,10 @@ import java.util.Locale;
 
 public class ScreenActivity extends AppCompatActivity {
     private WindowManager.LayoutParams params;
-    private float origin;
 
     private Handler handler;
 
-    private View overlayView;
-    private boolean isOverlayVisible = false;
+
 
     private Button cancleBtn;
 
@@ -79,7 +77,7 @@ public class ScreenActivity extends AppCompatActivity {
         System.out.println(sleeptimeData);
         System.out.println(waketimeData);
 
-        
+
 
         //알람 설정
         Intent serviceIntent = new Intent(ScreenActivity.this, BackgroundService.class);
@@ -122,10 +120,6 @@ public class ScreenActivity extends AppCompatActivity {
 
 
 
-        // 화면 밝기 제어 (가장 어둡게)
-        origin = params.screenBrightness;
-        params.screenBrightness = 0.5f;
-        getWindow().setAttributes(params);
 
 
 
@@ -155,24 +149,13 @@ public class ScreenActivity extends AppCompatActivity {
     }
 
 
-    private void doFullScreen() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE|
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE|
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION|
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-                        View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
 
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //finish();
+
     }
 
     @Override
@@ -182,24 +165,13 @@ public class ScreenActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!isBackPressed) {
-            // 뒤로가기 버튼을 눌렀을 때가 아니라면 showOverlayView 호출
-        }
-    }
 
 
-    private int dpToPx(int dp) {
-        float density = getResources().getDisplayMetrics().density;
-        return (int) (dp * density + 0.5f);
-    }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        isBackPressed = true; // 뒤로가기 버튼이 눌렸음을 표시
         finish();
     }
 
