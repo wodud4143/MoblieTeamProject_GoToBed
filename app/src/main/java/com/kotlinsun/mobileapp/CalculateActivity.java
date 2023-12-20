@@ -206,7 +206,7 @@ public class CalculateActivity extends AppCompatActivity {
                         // 데이터 저장 성공 시 실행할 코드
                         Toast.makeText(getApplicationContext(), "기록이 저장 되었습니다.", Toast.LENGTH_SHORT).show();
                         // 홈으로 돌아감
-                        Intent Startmain = new Intent(CalculateActivity.this, RealActivity.class);
+                        Intent Startmain = new Intent(CalculateActivity.this, ScreenActivity.class);
                         startActivity(Startmain);
                         finish();
                     }

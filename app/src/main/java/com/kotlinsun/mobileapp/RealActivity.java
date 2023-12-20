@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,7 @@ public class RealActivity extends AppCompatActivity {
     private ConstraintLayout detailView;
     private ConstraintLayout SleepNow;
     private String UidDate = "";
+    private View StatLott;
 
 
     private PieChart pieChart;
@@ -75,6 +77,22 @@ public class RealActivity extends AppCompatActivity {
         getUserName();
 
         fetchSleepData();
+
+        //수면 상태 확인
+        SharedPreferences sharedPreferences= getSharedPreferences("alarmStat", MODE_PRIVATE);    // test 이름의 기본모드 설정, 만약 test key값이 있다면 해당 값을 불러옴.
+        int Statdata = sharedPreferences.getInt("Stat",0);
+        StatLott = findViewById(R.id.StatLott);
+        if (Statdata == 1) {
+            StatLott.setVisibility(View.VISIBLE);
+            StatLott.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ScreenIntent = new Intent(RealActivity.this, ScreenActivity.class);
+                    startActivity(ScreenIntent);
+                }
+            });
+
+        } else StatLott.setVisibility(View.GONE);
 
 
         //바로자기 버튼
@@ -116,6 +134,27 @@ public class RealActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//수면 상태 확인
+        SharedPreferences sharedPreferences= getSharedPreferences("alarmStat", MODE_PRIVATE);    // test 이름의 기본모드 설정, 만약 test key값이 있다면 해당 값을 불러옴.
+        int Statdata = sharedPreferences.getInt("Stat",0);
+        StatLott = findViewById(R.id.StatLott);
+        if (Statdata == 1) {
+            StatLott.setVisibility(View.VISIBLE);
+            StatLott.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ScreenIntent = new Intent(RealActivity.this, ScreenActivity.class);
+                    startActivity(ScreenIntent);
+                }
+            });
+
+        } else StatLott.setVisibility(View.GONE);
 
     }
 
