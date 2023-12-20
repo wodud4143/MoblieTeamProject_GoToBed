@@ -133,8 +133,8 @@ public class CalCulateNow extends AppCompatActivity {
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(getDate[0].toString()));
                     sleepData.put("wake", convertTime(spinner.getSelectedItem().toString()));
-                    sleepToinetent[0] = getDate[0].toString();
-                    wakeToinetent[0] = spinner.getSelectedItem().toString();
+                    sleepToinetent[0] = convertTime(getDate[0].toString());
+                    wakeToinetent[0] = convertTime(spinner.getSelectedItem().toString());
 
 
 
