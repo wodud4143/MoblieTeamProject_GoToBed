@@ -11,12 +11,12 @@
         android:id="@+id/SleepStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text=" 수면 측정 중"
+        android:layout_marginTop="50dp"
+        android:text=" 수면 측정 중 or 수면까지 00분 남았슴"
         android:textAlignment="viewEnd"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="34sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,27 +24,46 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/sleepscreenlot"
-        android:layout_width="328dp"
-        android:layout_height="324dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/cancleBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@+id/sleepwaketimeTv"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/sleepscreenlot" />
 
     <Button
-        android:id="@+id/test2"
-        android:layout_width="wrap_content"
+        android:id="@+id/cancleBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/layout_style3"
         android:text="알람 취소"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/sleepwaketimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="00:00 ~ 00:00"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sleepscreenlot" />
+        app:layout_constraintTop_toBottomOf="@+id/SleepStat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

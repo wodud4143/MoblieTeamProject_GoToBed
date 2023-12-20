@@ -84,7 +84,10 @@ public class RealActivity extends AppCompatActivity {
         StatLott = findViewById(R.id.StatLott);
         if (Statdata == 1) {
             StatLott.setVisibility(View.VISIBLE);
+            Intent ScreenIntent1 = new Intent(RealActivity.this, ScreenActivity.class);
+            startActivity(ScreenIntent1);
             StatLott.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
                     Intent ScreenIntent = new Intent(RealActivity.this, ScreenActivity.class);
