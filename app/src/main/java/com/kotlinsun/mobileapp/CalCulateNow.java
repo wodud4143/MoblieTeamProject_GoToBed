@@ -35,6 +35,9 @@ public class CalCulateNow extends AppCompatActivity {
         Intent Intentdata = getIntent();
         String uid = Intentdata.getStringExtra("uid");
 
+        final String[] sleepToinetent = new String[1];
+        final String[] wakeToinetent = {""};
+
         ArrayList<String> times = new ArrayList<>();// 스피너에 넣을 시간 리스트
 
 
@@ -130,6 +133,8 @@ public class CalCulateNow extends AppCompatActivity {
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(getDate[0].toString()));
                     sleepData.put("wake", convertTime(spinner.getSelectedItem().toString()));
+                    sleepToinetent[0] = getDate[0].toString();
+                    wakeToinetent[0] = spinner.getSelectedItem().toString();
 
 
 
@@ -141,7 +146,9 @@ public class CalCulateNow extends AppCompatActivity {
                         // 데이터 저장 성공 시 실행할 코드
                         Toast.makeText(getApplicationContext(), "기록이 저장 되었습니다.", Toast.LENGTH_SHORT).show();
                         // 홈으로 돌아감
-                        Intent Startmain = new Intent(CalCulateNow.this, RealActivity.class);
+                        Intent Startmain = new Intent(CalCulateNow.this, ScreenActivity.class);
+                        Startmain.putExtra("sleeptime",sleepToinetent[0]);
+                        Startmain.putExtra("waketime",wakeToinetent[0]);
                         startActivity(Startmain);
                         finish();
                     }

@@ -49,6 +49,8 @@ public class CalculateActivity extends AppCompatActivity {
         TextView waketext3 = findViewById(R.id.waketext3);
         TextView waketext4 = findViewById(R.id.waketext4);
         final boolean[] Trigger = {false};
+        final String[] sleepToinetent = new String[1];
+        final String[] wakeToinetent = {""};
 
         //타임피커 리스너
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -191,10 +193,14 @@ public class CalculateActivity extends AppCompatActivity {
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(getDate[0].toString()));
                     sleepData.put("wake", convertTime(spinner.getSelectedItem().toString()));
+                    sleepToinetent[0] = getDate[0].toString();
+                    wakeToinetent[0] = spinner.getSelectedItem().toString();
                 }else{
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(spinner.getSelectedItem().toString()));
                     sleepData.put("wake", convertTime(getDate[0].toString()));
+                    sleepToinetent[0] = spinner.getSelectedItem().toString();
+                    wakeToinetent[0] = getDate[0].toString();
                 }
 
 
@@ -207,6 +213,8 @@ public class CalculateActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "기록이 저장 되었습니다.", Toast.LENGTH_SHORT).show();
                         // 홈으로 돌아감
                         Intent Startmain = new Intent(CalculateActivity.this, ScreenActivity.class);
+                        Startmain.putExtra("sleeptime",sleepToinetent[0]);
+                        Startmain.putExtra("waketime",wakeToinetent[0]);
                         startActivity(Startmain);
                         finish();
                     }
