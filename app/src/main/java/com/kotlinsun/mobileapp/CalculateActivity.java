@@ -1,6 +1,7 @@
 package com.kotlinsun.mobileapp;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -45,6 +46,8 @@ public class CalculateActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.go);
         Button Wakebtn = findViewById(R.id.btnWake);
         Button Sleepbtn = findViewById(R.id.btnSleep);
+        Drawable btn_style2 = getResources().getDrawable(R.drawable.btn_style2);
+        Drawable btn_style1 = getResources().getDrawable(R.drawable.btn_style1);
 
         TextView waketext1 = findViewById(R.id.waketext1);
         TextView waketext2 = findViewById(R.id.waketext2);
@@ -157,6 +160,8 @@ public class CalculateActivity extends AppCompatActivity {
                     waketext3.setVisibility(View.VISIBLE);
                     waketext4.setVisibility(View.VISIBLE);
                     Trigger[0] = false;
+                    Wakebtn.setBackground(btn_style1);
+                    Sleepbtn.setBackground(btn_style2);
                 }
             }
         });
@@ -170,6 +175,8 @@ public class CalculateActivity extends AppCompatActivity {
                     waketext3.setVisibility(View.GONE);
                     waketext4.setVisibility(View.GONE);
                     Trigger[0] = true;
+                    Wakebtn.setBackground(btn_style2);
+                    Sleepbtn.setBackground(btn_style1);
                 }
             }
         });
