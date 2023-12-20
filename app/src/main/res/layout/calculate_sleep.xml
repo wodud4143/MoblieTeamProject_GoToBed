@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,19 +12,32 @@
         android:padding="10dp"
         android:textSize="30dp"/>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="기상 시간 계산하기"
+        android:background="@drawable/btn_style1"
+        android:id="@+id/btnWake"></Button>
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="수면 시간 계산하기"
+        android:background="@drawable/btn_style2"
+        android:id="@+id/btnSleep"></Button>
+</LinearLayout>
 
-    <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switch1"
-            android:layout_gravity="center"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="언제 주무실 예정 이신가요?"
-        android:paddingLeft="20dp"
+        android:paddingLeft="120dp"
         android:id="@+id/waketext3"
         android:paddingTop="20dp"/>
 
@@ -31,18 +45,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="언제 일어나실 예정 이신가요?"
-        android:paddingLeft="20dp"
+        android:paddingLeft="120dp"
         android:paddingTop="20dp"
         android:id="@+id/waketext1"
         android:visibility="gone"/>
 
-        <TimePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:timePickerMode="spinner"
-            android:layout_margin="50dp"
-            android:id="@+id/time_picker"
-            />
+
+
+       <TimePicker
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:timePickerMode="spinner"
+           android:layout_margin="30dp"
+           android:id="@+id/time_picker"
+           tools:ignore="MissingConstraints" />
 
 
     <TextView
@@ -65,19 +81,24 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/spinner1"/>
+            android:id="@+id/spinner1"
+            android:background="@drawable/btn_style4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
+
+
         <Button
             android:id="@+id/go"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom"
-            android:text="수면 측정하기" />
+            android:text="수면 측정하기"
+            android:textSize="20dp"
+            android:background="@drawable/btn_style3"/>
 
     </LinearLayout>
 

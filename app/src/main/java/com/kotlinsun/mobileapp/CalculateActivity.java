@@ -43,7 +43,9 @@ public class CalculateActivity extends AppCompatActivity {
         TimePicker timePicker = findViewById(R.id.time_picker);
         Spinner spinner = findViewById(R.id.spinner1);
         Button btn = findViewById(R.id.go);
-        Switch switch1 = findViewById(R.id.switch1);
+        Button Wakebtn = findViewById(R.id.btnWake);
+        Button Sleepbtn = findViewById(R.id.btnSleep);
+
         TextView waketext1 = findViewById(R.id.waketext1);
         TextView waketext2 = findViewById(R.id.waketext2);
         TextView waketext3 = findViewById(R.id.waketext3);
@@ -57,7 +59,7 @@ public class CalculateActivity extends AppCompatActivity {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 times.clear();
-                Toast.makeText(CalculateActivity.this, " " + hourOfDay + " " + minute + " ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CalculateActivity.this, " " + hourOfDay + " " + minute + " ", Toast.LENGTH_SHORT).show();
                 String am_pm = "";
                 if(!Trigger[0]){ // 스위치 꺼졌을 때
                     if (hourOfDay >= 12) { // 오후 선택
@@ -146,17 +148,10 @@ public class CalculateActivity extends AppCompatActivity {
             }
         });
 
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Wakebtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    waketext1.setVisibility(View.VISIBLE);
-                    waketext2.setVisibility(View.VISIBLE);
-                    waketext3.setVisibility(View.GONE);
-                    waketext4.setVisibility(View.GONE);
-                    Trigger[0] = true;
-
-                }else{
+            public void onClick(View v) {
+                if(Trigger[0]){
                     waketext1.setVisibility(View.GONE);
                     waketext2.setVisibility(View.GONE);
                     waketext3.setVisibility(View.VISIBLE);
@@ -165,6 +160,20 @@ public class CalculateActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Sleepbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!Trigger[0]){
+                    waketext1.setVisibility(View.VISIBLE);
+                    waketext2.setVisibility(View.VISIBLE);
+                    waketext3.setVisibility(View.GONE);
+                    waketext4.setVisibility(View.GONE);
+                    Trigger[0] = true;
+                }
+            }
+        });
+
 
 
         btn.setOnClickListener(new View.OnClickListener() {
