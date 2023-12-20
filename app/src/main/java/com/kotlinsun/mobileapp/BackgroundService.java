@@ -3,13 +3,17 @@ package com.kotlinsun.mobileapp;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
+
+import androidx.core.app.NotificationManagerCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +42,10 @@ public class BackgroundService extends Service {
 
         if (intent != null) {
             alarmTime = intent.getStringExtra("alarm_time");
+            System.out.println("일어날 시간 : " + alarmTime);
         }
+
+
 
         // Foreground 서비스로 설정
         startForeground(1, createNotification());
@@ -63,8 +70,10 @@ public class BackgroundService extends Service {
 
                 if (currentTimeDate.after(alarmStartTime) && currentTimeDate.before(alarmEndTime)) {
                     if (!mediaPlayer.isPlaying()) {
+                        // 알람이 울릴 때 로컬 알림 표시
+                        showNotification();
                         mediaPlayer.start();
-                        startMainActivity();
+
                     }
                 } else {
                     if (mediaPlayer.isPlaying()) {
@@ -112,6 +121,30 @@ public class BackgroundService extends Service {
 
         return new Notification.Builder(this, "channel_id").build();
     }
+
+
+    private void showNotification() {
+
+        // 알림 클릭 시 MainActivity를 시작하도록 인텐트 설정
+        Intent intent = new Intent(this, ScreenOutActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // 로컬 알림 생성
+        Notification.Builder builder = new Notification.Builder(this, "channel_id")
+                .setContentTitle("알람")
+                .setContentText("알람이 울립니다.")
+                .setSmallIcon(R.drawable.grenn_circle)
+                .setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+
+        // 알림을 표시
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.notify(1, notification);
+    }
+
+
+
 
 
 }

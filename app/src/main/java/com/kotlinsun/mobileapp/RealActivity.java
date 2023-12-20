@@ -3,6 +3,7 @@ package com.kotlinsun.mobileapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
@@ -78,13 +80,21 @@ public class RealActivity extends AppCompatActivity {
 
         fetchSleepData();
 
+        // 알림 권한 체크 및 요청
+        if (!areNotificationsEnabled()) {
+            requestNotificationPermission();
+        }
+
         //수면 상태 확인
         SharedPreferences sharedPreferences= getSharedPreferences("alarmStat", MODE_PRIVATE);    // test 이름의 기본모드 설정, 만약 test key값이 있다면 해당 값을 불러옴.
         int Statdata = sharedPreferences.getInt("Stat",0);
         StatLott = findViewById(R.id.StatLott);
         if (Statdata == 1) {
             StatLott.setVisibility(View.VISIBLE);
+            Intent ScreenIntent1 = new Intent(RealActivity.this, ScreenActivity.class);
+            startActivity(ScreenIntent1);
             StatLott.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
                     Intent ScreenIntent = new Intent(RealActivity.this, ScreenActivity.class);
@@ -386,4 +396,17 @@ public class RealActivity extends AppCompatActivity {
 
         balloon.showAlignStart(pie,400,-300);
     }
+
+    private boolean areNotificationsEnabled() {
+        // 알림 권한 상태를 확인합니다.
+        return NotificationManagerCompat.from(this).areNotificationsEnabled();
+    }
+
+    private void requestNotificationPermission() {
+        // 알림 권한을 요청합니다.
+        Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        startActivity(intent);
+    }
+
 }

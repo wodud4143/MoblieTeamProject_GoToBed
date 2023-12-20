@@ -1,7 +1,10 @@
 package com.kotlinsun.mobileapp;
 
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -229,8 +232,11 @@ public class CalculateActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "기록이 저장 되었습니다.", Toast.LENGTH_SHORT).show();
                         // 홈으로 돌아감
                         Intent Startmain = new Intent(CalculateActivity.this, ScreenActivity.class);
-                        Startmain.putExtra("sleeptime",sleepToinetent[0]);
-                        Startmain.putExtra("waketime",wakeToinetent[0]);
+                        SharedPreferences sharedPreferences= getSharedPreferences("sleepwaketime", MODE_PRIVATE);
+                        SharedPreferences.Editor editor= sharedPreferences.edit();
+                        editor.putString("sleeptime",sleepToinetent[0]); //잘시간
+                        editor.putString("waketime",wakeToinetent[0]); //일어날 시간
+                        editor.commit();
                         startActivity(Startmain);
                         finish();
                     }
