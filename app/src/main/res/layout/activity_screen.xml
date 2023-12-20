@@ -7,6 +7,16 @@
     android:background="#000000"
     tools:context=".ScreenActivity">
 
+    <Switch
+        android:id="@+id/lockSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="화면 잠금"
+        android:textColor="#FFFFFF"
+        android:checked="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/SleepStat"
         android:layout_width="wrap_content"

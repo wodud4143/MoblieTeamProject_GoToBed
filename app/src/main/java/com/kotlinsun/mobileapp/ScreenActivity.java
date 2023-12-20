@@ -3,16 +3,24 @@ package com.kotlinsun.mobileapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -39,7 +47,17 @@ public class ScreenActivity extends AppCompatActivity {
     private String waketimeData;
 
 
+    private View overlayView;
+    private boolean isOverlayVisible = false;
+
+
+
     private boolean isBackPressed = false; // 뒤로가기 버튼이 눌렸는지 여부를 저장하는 변수
+
+    private boolean test = false;
+
+    private Switch testSwitch; // 스위치 변수 추가
+
 
 
 
@@ -77,7 +95,7 @@ public class ScreenActivity extends AppCompatActivity {
         System.out.println(sleeptimeData);
         System.out.println(waketimeData);
 
-
+        waketimeData = "20:23";
 
         //알람 설정
         Intent serviceIntent = new Intent(ScreenActivity.this, BackgroundService.class);
@@ -107,12 +125,11 @@ public class ScreenActivity extends AppCompatActivity {
 
 
 
-
-
         SharedPreferences sharedPreferences= getSharedPreferences("alarmStat", MODE_PRIVATE);    // test 이름의 기본모드 설정
         SharedPreferences.Editor editor= sharedPreferences.edit();
         editor.putInt("Stat",1); //수면 측정중
         editor.commit();
+
 
 
 
@@ -145,9 +162,103 @@ public class ScreenActivity extends AppCompatActivity {
         });
 
 
+        checkOverlayPermission();
+        overlayView = LayoutInflater.from(this).inflate(R.layout.activity_lock, null);
+        Button LockBtn2 = overlayView.findViewById(R.id.LockBtn2);
+        LockBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideOverlayView();
+            }
+        });
+
+        hideOverlayView();
+
+
+        // 스위치를 레이아웃에서 찾아와 변수에 할당
+        testSwitch = findViewById(R.id.lockSwitch);
+
+        // 스위치의 상태 변경 이벤트를 처리
+        testSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 스위치 상태에 따라 test 변수 값을 변경
+                test = isChecked;
+
+                // test 변수에 따라 showOverlayView 또는 hideOverlayView 호출
+                if (test) {
+                    test = true;
+                } else {
+                    test = false;
+                }
+            }
+        });
+
 
     }
 
+    private void checkOverlayPermission() {
+        if (!Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    private void showOverlayView() {
+        overlayView.setOnTouchListener(new View.OnTouchListener() {
+
+            private float previousX = 0;
+            private float previousY = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        previousX = event.getRawX();
+                        previousY = event.getRawY();
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        float deltaX = event.getRawX() - previousX;
+                        float deltaY = event.getRawY() - previousY;
+                        WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) v.getLayoutParams();
+                        layoutParams.x += (int) deltaX;
+                        layoutParams.y += (int) deltaY;
+                        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                        windowManager.updateViewLayout(v, layoutParams);
+                        previousX = event.getRawX();
+                        previousY = event.getRawY();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT
+        );
+
+        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        windowManager.addView(overlayView, params);
+        isOverlayVisible = true;
+    }
+
+    private void hideOverlayView() {
+        if (overlayView.isAttachedToWindow()) {
+            WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            windowManager.removeView(overlayView);
+            isOverlayVisible = false;
+        }
+    }
+
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dp * density + 0.5f);
+    }
 
 
 
@@ -155,14 +266,28 @@ public class ScreenActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        hideOverlayView();
+        finish();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        hideOverlayView();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!isBackPressed) {
+            // 뒤로가기 버튼을 눌렀을 때가 아니라면 showOverlayView 호출
+
+            if (test) {
+                showOverlayView();
+            }
+            else hideOverlayView();
+        }
     }
 
 
@@ -172,6 +297,8 @@ public class ScreenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        isBackPressed = true; // 뒤로가기 버튼이 눌렸음을 표시
+        hideOverlayView();
         finish();
     }
 
@@ -236,6 +363,7 @@ public class ScreenActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 
 
