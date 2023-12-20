@@ -58,7 +58,8 @@
            android:timePickerMode="spinner"
            android:layout_margin="30dp"
            android:id="@+id/time_picker"
-           tools:ignore="MissingConstraints" />
+           tools:ignore="MissingConstraints"
+           android:background="@drawable/btn_style4"/>
 
 
     <TextView
