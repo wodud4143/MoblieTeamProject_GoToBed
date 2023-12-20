@@ -193,14 +193,14 @@ public class CalculateActivity extends AppCompatActivity {
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(getDate[0].toString()));
                     sleepData.put("wake", convertTime(spinner.getSelectedItem().toString()));
-                    sleepToinetent[0] = getDate[0].toString();
-                    wakeToinetent[0] = spinner.getSelectedItem().toString();
+                    sleepToinetent[0] = convertTime(getDate[0].toString());
+                    wakeToinetent[0] = convertTime(spinner.getSelectedItem().toString());
                 }else{
                     sleepData.put("date", subDocumentId);
                     sleepData.put("sleep", convertTime(spinner.getSelectedItem().toString()));
                     sleepData.put("wake", convertTime(getDate[0].toString()));
-                    sleepToinetent[0] = spinner.getSelectedItem().toString();
-                    wakeToinetent[0] = getDate[0].toString();
+                    sleepToinetent[0] = convertTime(spinner.getSelectedItem().toString());
+                    wakeToinetent[0] = convertTime(getDate[0].toString());
                 }
 
 
