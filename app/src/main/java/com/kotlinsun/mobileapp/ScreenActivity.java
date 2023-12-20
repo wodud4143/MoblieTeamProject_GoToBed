@@ -95,7 +95,7 @@ public class ScreenActivity extends AppCompatActivity {
         System.out.println(sleeptimeData);
         System.out.println(waketimeData);
 
-        waketimeData = "20:23";
+        
 
         //알람 설정
         Intent serviceIntent = new Intent(ScreenActivity.this, BackgroundService.class);
